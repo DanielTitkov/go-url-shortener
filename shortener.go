@@ -73,5 +73,4 @@ func main() {
     fmt.Println("Resolved url 3:", shortener.Resolve(urlShort3))
     fmt.Println()
     fmt.Println("Trying to resolve random url", randomUrl, ": '" + shortener.Resolve(randomUrl) + "'")
-
 }
