@@ -11,8 +11,8 @@ import (
 
 type UrlShortener struct {
     storage map[string]string
-    service_url string
-    key_length int
+    serviceUrl string
+    keyLength int
 }
 
 
@@ -29,11 +29,11 @@ func randomString(length int) string {
 
 func (u *UrlShortener) Shorten(url string) string {
     for {
-        key := randomString(u.key_length)
+        key := randomString(u.keyLength)
         _, ok := u.storage[key]
         if !ok {
             u.storage[key] = url
-            return u.service_url + "/" + key
+            return u.serviceUrl + "/" + key
         }
         time.Sleep(2 * time.Millisecond)
     }
@@ -41,8 +41,8 @@ func (u *UrlShortener) Shorten(url string) string {
 
 
 func (u *UrlShortener) Resolve(url string) string {
-    url_parts := strings.Split(url, "/")
-    key := url_parts[len(url_parts)-1]
+    urlParts := strings.Split(url, "/")
+    key := urlParts[len(urlParts)-1]
     return u.storage[key]
 }
 
@@ -54,23 +54,23 @@ func main() {
     url2 := "https://www.youtube.com/watch?v=3H0b5qUfDug"
     url3 := "http://conjugator.reverso.net/conjugation-english-verb-not%20to%20duck.html"
 
-    url1_sh := shortener.Shorten(url1)
-    url2_sh := shortener.Shorten(url2)
-    url3_sh := shortener.Shorten(url3)
+    urlShort1 := shortener.Shorten(url1)
+    urlShort2 := shortener.Shorten(url2)
+    urlShort3 := shortener.Shorten(url3)
 
-    random_url := "https://foobar.com/gre2332"
+    randomUrl := "https://foobar.com/gre2332"
 
     fmt.Println("Original url 1:", url1)
     fmt.Println("Original url 2:", url2)
     fmt.Println("Original url 3:", url3, "\n")
 
-    fmt.Println("Shortened url 1:", url1_sh)
-    fmt.Println("Shortened url 2:", url2_sh)
-    fmt.Println("Shortened url 3:", url3_sh, "\n")
+    fmt.Println("Shortened url 1:", urlShort1)
+    fmt.Println("Shortened url 2:", urlShort2)
+    fmt.Println("Shortened url 3:", urlShort3, "\n")
 
-    fmt.Println("Resolved url 1:", shortener.Resolve(url1_sh))
-    fmt.Println("Resolved url 2:", shortener.Resolve(url2_sh))
-    fmt.Println("Resolved url 3:", shortener.Resolve(url3_sh), "\n")
-    fmt.Println("Trying to resolve random url", random_url, ": '" + shortener.Resolve(random_url) + "'")
+    fmt.Println("Resolved url 1:", shortener.Resolve(urlShort1))
+    fmt.Println("Resolved url 2:", shortener.Resolve(urlShort2))
+    fmt.Println("Resolved url 3:", shortener.Resolve(urlShort3), "\n")
+    fmt.Println("Trying to resolve random url", randomUrl, ": '" + shortener.Resolve(randomUrl) + "'")
 
 }
