@@ -27,23 +27,23 @@ func randomString(length int) string {
 }
 
 
-func (u *UrlShortener) Shorten(url string) string {
+func (self *UrlShortener) Shorten(url string) string {
     for {
-        key := randomString(u.keyLength)
-        _, ok := u.storage[key]
+        key := randomString(self.keyLength)
+        _, ok := self.storage[key]
         if !ok {
-            u.storage[key] = url
-            return u.serviceUrl + "/" + key
+            self.storage[key] = url
+            return self.serviceUrl + "/" + key
         }
         time.Sleep(2 * time.Millisecond)
     }
 }
 
 
-func (u *UrlShortener) Resolve(url string) string {
+func (self *UrlShortener) Resolve(url string) string {
     urlParts := strings.Split(url, "/")
     key := urlParts[len(urlParts)-1]
-    return u.storage[key]
+    return self.storage[key]
 }
 
 
@@ -62,15 +62,16 @@ func main() {
 
     fmt.Println("Original url 1:", url1)
     fmt.Println("Original url 2:", url2)
-    fmt.Println("Original url 3:", url3, "\n")
-
+    fmt.Println("Original url 3:", url3)
+    fmt.Println()
     fmt.Println("Shortened url 1:", urlShort1)
     fmt.Println("Shortened url 2:", urlShort2)
-    fmt.Println("Shortened url 3:", urlShort3, "\n")
-
+    fmt.Println("Shortened url 3:", urlShort3)
+    fmt.Println()
     fmt.Println("Resolved url 1:", shortener.Resolve(urlShort1))
     fmt.Println("Resolved url 2:", shortener.Resolve(urlShort2))
-    fmt.Println("Resolved url 3:", shortener.Resolve(urlShort3), "\n")
+    fmt.Println("Resolved url 3:", shortener.Resolve(urlShort3))
+    fmt.Println()
     fmt.Println("Trying to resolve random url", randomUrl, ": '" + shortener.Resolve(randomUrl) + "'")
 
 }
