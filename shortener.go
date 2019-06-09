@@ -17,7 +17,6 @@ type UrlShortener struct {
 
 
 func randomString(length int) string {
-    rand.Seed(time.Now().UnixNano())
     chars := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
     var builder strings.Builder
     for i := 0; i < length; i++ {
@@ -35,7 +34,6 @@ func (self *UrlShortener) Shorten(url string) string {
             self.storage[key] = url
             return self.serviceUrl + "/" + key
         }
-        time.Sleep(2 * time.Millisecond)
     }
 }
 
@@ -44,6 +42,11 @@ func (self *UrlShortener) Resolve(url string) string {
     urlParts := strings.Split(url, "/")
     key := urlParts[len(urlParts)-1]
     return self.storage[key]
+}
+
+
+func init() {
+    rand.Seed(time.Now().UnixNano())
 }
 
 
